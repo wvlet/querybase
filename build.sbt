@@ -1,3 +1,6 @@
+// It will automatically reload build.sbt changes at sbt console
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 val SCALA_3          = "3.3.0"
 val AIRFRAME_VERSION = sys.env.getOrElse("AIRFRAME_VERSION", "23.6.0")
 val AIRSPEC_VERSION  = "23.6.0"
@@ -20,8 +23,15 @@ val buildSettings = Seq[Setting[_]](
 lazy val querybase =
   project
     .in(file("."))
+    .enablePlugins(BuildInfoPlugin)
     .settings(
       buildSettings,
-      name := "querybase",
-      description := "querybase root project"
+      name             := "querybase",
+      description      := "querybase root project",
+      buildInfoKeys    := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := "wvlet.querybase",
+      libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %% "airframe-launcher" % AIRFRAME_VERSION,
+        "org.wvlet.airframe" %% "airframe-log"      % AIRFRAME_VERSION
+      )
     )
