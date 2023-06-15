@@ -1,7 +1,7 @@
 package wvlet.querybase
 
 /**
-  * Represet a time range [start, end)
+  * Represent a time range [start, end)
   */
 class Interval(val start: Long, val end: Long):
   require(start <= end, "start must be smaller than or equals to end: [%d, %d)".format(start, end))
