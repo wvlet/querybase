@@ -21,5 +21,5 @@ class Interval(val start: Long, val end: Long):
   def overlaps(other: Interval): Boolean =
     start < other.end && other.start < end
 
-// case class JobInterval(name: String, start: Long, end: Long)      extends Interval
+// case class JobInterval(name: String, start: Long, end: Long) extends Interval(st)
 // case class TaskInterval(taskName: String, start: Long, end: Long) extends Interval

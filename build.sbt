@@ -32,6 +32,8 @@ lazy val querybase =
       buildInfoPackage := "wvlet.querybase",
       libraryDependencies ++= Seq(
         "org.wvlet.airframe" %% "airframe-launcher" % AIRFRAME_VERSION,
+        "org.wvlet.airframe" %% "airframe-control"  % AIRFRAME_VERSION,
+        "org.wvlet.airframe" %% "airframe-codec"    % AIRFRAME_VERSION,
         "org.wvlet.airframe" %% "airframe-log"      % AIRFRAME_VERSION
       )
     )
