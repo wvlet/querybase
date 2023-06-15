@@ -12,6 +12,13 @@ case class JobInterval(name: String, override val start: Long, override val end:
 }
 
 object JobInterval extends LogSupport {
+
+//  given IntervalLike[JobInterval]
+//    extension (j: JobInterval)
+//      def start: Long = j.start
+//      def end: Long = j.end
+//
+
   def loadFromJson(jsonFilePath: String): Seq[JobInterval] = {
     // read the json file and map to JobInterval by using airframe-codec
     val jsonData = wvlet.airframe.control.IO.readAsString(new File(jsonFilePath))
