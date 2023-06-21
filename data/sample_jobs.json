@@ -1,4 +1,4 @@
 [
-  {"name":"job 1","start":100,"end":200,"sig":"n/a","cpu":200000,"memory":200000},
-  {"name":"job 2","start":110,"end":150,"sig":"n/a","cpu":500000,"memory":500000}
+  {"name":"job 1","created_time":100,"start_time":120,"finished_time":200,"sig":"n/a","cpu":200000,"memory":200000},
+  {"name":"job 2","created_time":110,"start_time":130,"finished_time":150,"sig":"n/a","cpu":500000,"memory":500000}
 ]
