@@ -1,4 +1,4 @@
-PARQUET_FILES:=data/sample_jobs.parquet
+PARQUET_FILES:=data/sample_jobs.parquet data/jobs_579.parquet
 
 all: $(PARQUET_FILES)
 
