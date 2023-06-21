@@ -15,7 +15,7 @@ case class JobInterval(
     finished_time: Long,
     sig: String,
     cpu: Long,
-    memory: Long
+    memory: Double
 ) {}
 
 object JobInterval extends LogSupport {
@@ -31,7 +31,7 @@ object JobInterval extends LogSupport {
       def start_time: Long    = j.start_time
       def finished_time: Long = j.finished_time
       def cpuTime: Long       = j.cpu
-      def memoryTime: Long    = j.memory
+      def memoryTime: Double    = j.memory
       def updateWith(created_time: Long, start_time: Long, finished_time: Long): JobInterval =
         j.copy(created_time = created_time, start_time = start_time, finished_time = finished_time)
 
@@ -57,7 +57,7 @@ object JobInterval extends LogSupport {
               finished_time = rs.getLong(4),
               sig = rs.getString(5),
               cpu = rs.getLong(6),
-              memory = rs.getLong(7)
+              memory = rs.getDouble(7)
             )
           }
         }
