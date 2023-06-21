@@ -17,6 +17,14 @@ object IntervalSweep:
       else if diff < 0 then -1
       else 1
 
+  /**
+   * An ordering definition to sort intervals with smaller start first
+   * @tparam A
+   * @return
+   */
+  def intervalStartAscendOrdering[A: IntervalLike]: Ordering[A] = new Ordering[A]:
+    override def compare(x: A, y: A): Int = x.start.compareTo(y.start)
+
   case class IntervalSweepReport[A](
       sweepLine: Long,
       overlappedIntervals: Seq[A]

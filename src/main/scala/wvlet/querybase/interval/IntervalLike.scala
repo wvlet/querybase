@@ -6,7 +6,10 @@ trait IntervalLike[A]:
     def created_time: Long
     def start_time: Long
     def finished_time: Long
+    def updateWith(created_time: Long, start_time: Long, finished_time: Long): A
     def end: Long
+    def cpuTime: Long
+    def memoryTime: Long
     def length: Long                                   = end - start
     def contains[B: IntervalLike](other: B): Boolean   = a.start <= other.start && other.end <= a.end
     def contains(pos: Long): Boolean                   = a.start <= pos && pos < a.end
