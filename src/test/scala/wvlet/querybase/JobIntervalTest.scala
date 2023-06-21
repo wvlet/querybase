@@ -1,6 +1,7 @@
 package wvlet.querybase
 
 import wvlet.airspec.AirSpec
+import wvlet.querybase.interval.JobInterval
 
 class JobIntervalTest extends AirSpec:
   test("read json file") {

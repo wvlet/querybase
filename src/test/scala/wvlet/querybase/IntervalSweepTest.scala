@@ -1,6 +1,7 @@
 package wvlet.querybase
 
 import wvlet.airspec.AirSpec
+import wvlet.querybase.interval.{IntervalSweep, JobInterval}
 
 class IntervalSweepTest extends AirSpec {
   test("sweep") {
