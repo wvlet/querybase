@@ -17,8 +17,12 @@ class CapacitySimulatorTest extends AirSpec {
     )
     debug(result)
     result shouldBe CapacitySimulator.CapacitySimulatorReport(
-      List(JobInterval("job 1",1,1,8,"n/a",20,20), JobInterval("job 2",2,8,9,"n/a",50,50)),
+      List(JobInterval("job 1", 1, 1, 8, "n/a", 20, 20), JobInterval("job 2", 2, 8, 9, "n/a", 50, 50)),
       capacity
     )
+  }
+
+  test("simulate 579 jobs") {
+    val jobs = JobInterval.loadFromParquet("data/jobs_579.parquet")
   }
 }
