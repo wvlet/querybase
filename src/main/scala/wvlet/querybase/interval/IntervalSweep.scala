@@ -66,3 +66,14 @@ object IntervalSweep:
     }
     sweepLine = sweepUntil(Long.MaxValue)
   }
+
+  def reportPeakTimes[A: IntervalLike](sortedIntervals: Iterator[A]): Seq[PeakTime] = {
+    val buffer = Seq.newBuilder[PeakTime]
+    sweep(
+      sortedIntervals,
+      { (report: IntervalSweepReport[A]) =>
+        buffer += PeakTime(report.sweepLine, report.count)
+      }
+    )
+    buffer.result()
+  }

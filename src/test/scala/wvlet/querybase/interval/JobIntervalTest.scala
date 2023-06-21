@@ -1,4 +1,4 @@
-package wvlet.querybase
+package wvlet.querybase.interval
 
 import wvlet.airspec.AirSpec
 import wvlet.querybase.interval.JobInterval
