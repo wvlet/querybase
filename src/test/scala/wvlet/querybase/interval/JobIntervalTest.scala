@@ -18,7 +18,7 @@ class JobIntervalTest extends AirSpec:
   test("read Parquet file") {
     val lst = JobInterval.loadFromParquet("data/sample_jobs.parquet")
     lst shouldBe List(
-      JobInterval("job 1", 100, 120, 200, "n/a", 200000, 200000),
-      JobInterval("job 2", 110, 130, 150, "n/a", 500000, 500000)
+      JobInterval("job 1", 100, 120, 200, "N/A", 200000, 200000),
+      JobInterval("job 2", 110, 130, 150, "N/A", 500000, 500000)
     )
   }
