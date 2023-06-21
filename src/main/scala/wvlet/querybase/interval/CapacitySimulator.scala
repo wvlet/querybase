@@ -29,6 +29,14 @@ object CapacitySimulator:
 
     var sweepLine = 0L
 
+    def totalCPUTime    = runningQueue.map(_.cpuTime).sum
+    def totalMemoryTime = runningQueue.map(_.memoryTime).sum
+
+    def hasSufficientCapacityFor(job: A): Boolean =
+      (runningQueue.size + 1 <= capacity.maxConcurrentJobs) &&
+        (totalCPUTime + job.cpuTime <= capacity.maxCpuTime) &&
+        (totalMemoryTime + job.memoryTime <= capacity.maxMemoryTime)
+
     /**
       * Sweep all of the jobs from the queues preceding the given sweepLimit
       * @param sweepLimit
@@ -43,7 +51,7 @@ object CapacitySimulator:
         sweepLine = x.end
 
         // Find jobs in the waiting queue that can be started after the completion of the current job
-        while (waitingQueue.nonEmpty && (runningQueue.size < capacity.maxConcurrentJobs)) {
+        while (waitingQueue.nonEmpty && hasSufficientCapacityFor(waitingQueue.head)) {
           val j = waitingQueue.dequeue()
           // Set a new start time for the job
           val updatedJob = j.updateWith(
@@ -65,12 +73,12 @@ object CapacitySimulator:
       sweepUntil(j.start)
       // If the queue has more slots for jobs
       // TODO Check the max cpu and memory capacity as well
-      if (runningQueue.size < capacity.maxConcurrentJobs) then
+      if (hasSufficientCapacityFor(j)) then
         // Assume that the job can start immediately
         val updatedJob =
           j.updateWith(
             created_time = j.created_time,
-            start_time = j.start_time,
+            start_time = j.created_time,
             finished_time = j.created_time + j.finished_time - j.start_time
           )
         // Add the job to the running queue
