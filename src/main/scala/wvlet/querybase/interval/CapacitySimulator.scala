@@ -2,14 +2,20 @@ package wvlet.querybase.interval
 
 import scala.collection.mutable
 import scala.util.chaining.*
+import wvlet.log.LogSupport
 
-object CapacitySimulator:
+object CapacitySimulator extends LogSupport:
 
   case class ClusterCapacity(
       maxConcurrentJobs: Int,
       maxCpuTime: Long,
       maxMemoryTime: Long
   )
+
+  case class CapacitySimulatorReport[A](
+      simulatedJobs: Seq[A],
+      capacity: ClusterCapacity
+      )
 
   /**
     * Simulate the job schedule with the given capacity
@@ -20,7 +26,8 @@ object CapacitySimulator:
     * @return
     *   A list of the simulated jobs
     */
-  def simulateJobSchedule[A: IntervalLike](jobs: Seq[A], capacity: ClusterCapacity): Seq[A] =
+  def simulateJobSchedule[A: IntervalLike](jobs: Seq[A], capacity: ClusterCapacity): CapacitySimulatorReport[A] =
+    debug(s"Simulate job schedule with ${capacity}")
     // A queue of running jobs
     val runningQueue = new mutable.PriorityQueue[A]()(IntervalSweep.intervalSweepOrdering[A])
     // A queue of jobs which cannot be started due to the capacity limit
@@ -92,4 +99,4 @@ object CapacitySimulator:
     sweepUntil(Long.MaxValue)
 
     // Return the simulation result
-    simulatedJobs.result()
+    CapacitySimulatorReport(simulatedJobs.result(), capacity)
