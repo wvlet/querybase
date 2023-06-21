@@ -3,6 +3,9 @@ package wvlet.querybase
 trait IntervalLike[A]:
   extension (a: A)
     def start: Long
+    def created_time: Long
+    def start_time: Long
+    def finished_time: Long
     def end: Long
     def length: Long                                   = end - start
     def contains[B: IntervalLike](other: B): Boolean   = a.start <= other.start && other.end <= a.end
