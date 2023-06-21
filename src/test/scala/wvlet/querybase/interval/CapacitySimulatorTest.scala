@@ -23,6 +23,18 @@ class CapacitySimulatorTest extends AirSpec {
   }
 
   test("simulate 579 jobs") {
-    val jobs = JobInterval.loadFromParquet("data/jobs_579.parquet")
+    val jobs     = JobInterval.loadFromParquet("data/jobs_579.parquet")
+    val capacity = CapacitySimulator.ClusterCapacity(1, 100000, 1000000000)
+    val result = CapacitySimulator.simulateJobSchedule[JobInterval](
+      jobs = jobs,
+      capacity = capacity
+    )
+    val totalQueuedTime = result.simulatedJobs.map(j => j.start_time - j.created_time).sum
+    // Get the 95-tile of queued time
+    val queuedTime95 = result.simulatedJobs
+      .map(j => j.start_time - j.created_time).sorted.apply((result.simulatedJobs.size * 0.95).toInt)
+
+    // debug(result)
+    info(s"total queued time: ${totalQueuedTime}, p95: ${queuedTime95}")
   }
 }
