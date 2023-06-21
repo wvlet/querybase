@@ -15,8 +15,10 @@ object CapacitySimulator:
     * Simulate the job schedule with the given capacity
     * @param jobs
     * @param capacity
+    *   the max cluster capacity
     * @tparam A
     * @return
+    *   A list of the simulated jobs
     */
   def simulateJobSchedule[A: IntervalLike](jobs: Seq[A], capacity: ClusterCapacity): Seq[A] =
     // A queue of running jobs
