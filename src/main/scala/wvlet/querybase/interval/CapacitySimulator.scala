@@ -29,22 +29,33 @@ object CapacitySimulator:
 
     var sweepLine = 0L
 
+    /**
+      * Sweep all of the jobs from the queues preceding the given sweepLimit
+      * @param sweepLimit
+      */
     def sweepUntil(sweepLimit: Long): Unit = {
+      // Find all preceding jobs that finish before the sweepLimit
       while (runningQueue.nonEmpty && runningQueue.head.end <= sweepLimit) {
         val x = runningQueue.dequeue()
+        // Report the completed job
         simulatedJobs += x
+        // The running queue sort jobs by the end time, so this end value should be the smallest among the running jobs
         sweepLine = x.end
 
+        // Find jobs in the waiting queue that can be started after the completion of the current job
         while (waitingQueue.nonEmpty && (runningQueue.size < capacity.maxConcurrentJobs)) {
           val j = waitingQueue.dequeue()
+          // Set a new start time for the job
           val updatedJob = j.updateWith(
             created_time = j.created_time,
             start_time = sweepLine,
             finished_time = sweepLine + j.finished_time - j.start_time
           )
+          // Add the job to the running queue
           runningQueue += updatedJob
         }
       }
+      // Update the sweep line as we processed all running jobs before the sweepLimit
       sweepLine = sweepLimit
     }
 
