@@ -27,6 +27,8 @@ object JobInterval extends LogSupport {
       def created_time: Long  = j.created_time
       def start_time: Long    = j.start_time
       def finished_time: Long = j.finished_time
+      def updateWith(created_time: Long, start_time: Long, finished_time: Long): JobInterval =
+        j.copy(created_time = created_time, start_time = start_time, finished_time = finished_time)
 
   def loadFromJson(jsonFilePath: String): Seq[JobInterval] = {
     // read the json file and map to JobInterval by using airframe-codec
