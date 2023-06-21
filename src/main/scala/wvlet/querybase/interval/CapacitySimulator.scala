@@ -15,7 +15,7 @@ object CapacitySimulator extends LogSupport:
   case class CapacitySimulatorReport[A](
       simulatedJobs: Seq[A],
       capacity: ClusterCapacity
-      )
+  )
 
   /**
     * Simulate the job schedule with the given capacity
