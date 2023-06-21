@@ -7,7 +7,7 @@ import java.io.File
 import java.sql.DriverManager
 import scala.util.Using
 
-case class JobInterval(name: String, override val start: Long, override val end: Long) extends Interval(start, end) {
+case class JobInterval(name: String, override val start: Long, override val end: Long, sig: String, cpu: Long, memory: Long) extends Interval(start, end) {
   override def toString: String = s"${name}:[${start}, ${end})"
 }
 
@@ -36,7 +36,10 @@ object JobInterval extends LogSupport {
             lst += JobInterval(
               name = rs.getString(1),
               start = rs.getLong(2),
-              end = rs.getLong(3)
+              end = rs.getLong(3),
+              sig = rs.getString(4),
+              cpu = rs.getLong(5),
+              memory = rs.getLong(6),
             )
           }
         }
