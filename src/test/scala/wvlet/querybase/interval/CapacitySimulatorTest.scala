@@ -23,18 +23,21 @@ class CapacitySimulatorTest extends AirSpec {
   }
 
   test("simulate 579 jobs") {
-    val jobs     = JobInterval.loadFromParquet("data/jobs_579.parquet")
-    val capacity = CapacitySimulator.ClusterCapacity(1, 100000, 1000000000)
-    val result = CapacitySimulator.simulateJobSchedule[JobInterval](
-      jobs = jobs,
-      capacity = capacity
-    )
-    val totalQueuedTime = result.simulatedJobs.map(j => j.start_time - j.created_time).sum
-    // Get the 95-tile of queued time
-    val queuedTime95 = result.simulatedJobs
-      .map(j => j.start_time - j.created_time).sorted.apply((result.simulatedJobs.size * 0.95).toInt)
+    val jobs = JobInterval.loadFromParquet("data/jobs_579.parquet")
 
-    // debug(result)
-    info(s"total queued time: ${totalQueuedTime}, p95: ${queuedTime95}")
+    for (maxConcurrentJobs <- Seq(1, 10, 100); memory <- Seq(2, 4, 8, 16)) {
+      val capacity = CapacitySimulator.ClusterCapacity(maxConcurrentJobs, 100000, memory)
+      val result = CapacitySimulator.simulateJobSchedule[JobInterval](
+        jobs = jobs,
+        capacity = capacity
+      )
+      val totalQueuedTime = result.simulatedJobs.map(j => j.start_time - j.created_time).sum
+      // Get the 95-tile of queued time
+      val queuedTime95 = result.simulatedJobs
+        .map(j => j.start_time - j.created_time).sorted.apply((result.simulatedJobs.size * 0.95).toInt)
+
+      // debug(result)
+      info(s"capacity: ${capacity}, total queued time: ${totalQueuedTime}, p95: ${queuedTime95}")
+    }
   }
 }
