@@ -21,7 +21,7 @@ $ cd querybase-ui
 $ yarn install 
 
 // Start a dev server
-$ yarn preview --open  
+$ yarn dev --open  
 
 ```
 
