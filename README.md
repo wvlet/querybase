@@ -24,3 +24,9 @@ $ yarn install
 $ yarn preview --open  
 
 ```
+
+
+```agsl
+
+$ yarn build
+```

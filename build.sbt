@@ -108,8 +108,20 @@ lazy val ui =
         linkerConfig(_)
       },
       publicDev  := s"target/scala-${scalaVersion.value}/querybase-ui-fastopt",
-      publicProd := s"target/scala-${scalaVersion.value}/querybase-ui-opt"
+      publicProd := s"target/scala-${scalaVersion.value}/querybase-ui-opt",
+      externalNpm := {
+        import java.nio.file.{Files, Paths}
+        val yarnProg = Files.exists(Paths.get("/opt/homebrew/bin/yarn")) match {
+          // Workaround for IntelliJ sbt project loader on Mac OS X
+          case true  => "/opt/homebrew/bin/yarn"
+          case false => "yarn"
+        }
+        // Use Yarn instead of npm
+        scala.sys.process.Process(List(yarnProg, "--silent"), baseDirectory.value).!
+        baseDirectory.value
+      }
     )
+    .dependsOn(api.js, client.js)
 
 def linkerConfig(config: StandardConfig): StandardConfig = {
   config
