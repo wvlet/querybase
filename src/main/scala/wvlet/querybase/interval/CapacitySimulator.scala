@@ -50,10 +50,6 @@ object CapacitySimulator extends LogSupport:
           (totalMemoryTime + job.memoryTime <= capacity.maxMemoryTime)
       )
 
-    var count = 0;
-
-    def wakeupJobs(): Unit = {}
-
     /**
       * Sweep all of the jobs from the queues preceding the given sweepLimit
       * @param sweepLimit
