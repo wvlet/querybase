@@ -9,8 +9,8 @@ Querybase is a system for monitoring and optimizing big data analytics workload
 Running a server:
 ```
 $ ./sbt
-# Start a server using port 8080
-> server/run --port 8080
+# Start a server using port 8080, and restart the server upon the code change
+> ~reStart server 
 ```
 
 Running a UI development server:
