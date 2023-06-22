@@ -8,7 +8,7 @@ case class ClusterCapacity(
     //	at wvlet.airframe.surface.StaticMethodParameter.get$$anonfun$1(Surfaces.scala:109)
     //	at scala.Option.map(Option.scala:242)
     //	at wvlet.airframe.surface.StaticMethodParameter.get(Surfaces.scala:109)
-    maxMemoryTime: Long
+    maxMemoryTime: Double
 )
 
 case class CapacitySimulatorReport[A](

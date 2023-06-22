@@ -55,7 +55,7 @@ class QuerybaseServerTest extends AirSpec {
       val response = rpcClient.JobIntervalApi.getSimulationResult(
         SimulationRequest(
           TargetTimeRange(1, 100),
-          ClusterCapacity(maxConcurrentJobs = 10, maxCpuTime = 1000, maxMemoryTime = 1)
+          ClusterCapacity(maxConcurrentJobs = 10, maxCpuTime = 1000, maxMemoryTime = 1.0)
         )
       )
 
