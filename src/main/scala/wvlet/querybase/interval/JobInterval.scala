@@ -31,7 +31,7 @@ object JobInterval extends LogSupport {
       def start_time: Long    = j.start_time
       def finished_time: Long = j.finished_time
       def cpuTime: Long       = j.cpu
-      def memoryTime: Double    = j.memory
+      def memoryTime: Double  = j.memory
       def updateWith(created_time: Long, start_time: Long, finished_time: Long): JobInterval =
         j.copy(created_time = created_time, start_time = start_time, finished_time = finished_time)
 
@@ -46,9 +46,13 @@ object JobInterval extends LogSupport {
   def loadFromParquet(parquetFilePath: String): Seq[JobInterval] = {
     Class.forName("org.duckdb.DuckDBDriver")
     val lst = Seq.newBuilder[JobInterval]
-    Using(DriverManager.getConnection("jdbc:duckdb:")) { conn =>
-      Using(conn.createStatement()) { stmt =>
-        Using(stmt.executeQuery(s"select * from '${parquetFilePath}'")) { rs =>
+    Using.resource(DriverManager.getConnection("jdbc:duckdb:")) { conn =>
+      Using.resource(conn.createStatement()) { stmt =>
+        Using.resource(
+          stmt.executeQuery(
+            s"select name, created_time, start_time, finished_time, 'N/A' as sig, cpu, memory from '${parquetFilePath}'"
+          )
+        ) { rs =>
           while (rs.next()) {
             lst += JobInterval(
               name = rs.getString(1),
