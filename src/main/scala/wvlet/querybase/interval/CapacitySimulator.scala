@@ -43,11 +43,16 @@ object CapacitySimulator extends LogSupport:
     def totalMemoryTime = runningQueue.map(_.memoryTime).sum
 
     def hasSufficientCapacityFor(job: A): Boolean =
-      (runningQueue.size + 1 <= capacity.maxConcurrentJobs) &&
-        (totalCPUTime + job.cpuTime <= capacity.maxCpuTime) &&
-        (totalMemoryTime + job.memoryTime <= capacity.maxMemoryTime)
+      // If no query is running, we can start the job regardless of the cluster capacity
+      runningQueue.isEmpty || (
+        (runningQueue.size + 1 <= capacity.maxConcurrentJobs) &&
+          (totalCPUTime + job.cpuTime <= capacity.maxCpuTime) &&
+          (totalMemoryTime + job.memoryTime <= capacity.maxMemoryTime)
+      )
 
     var count = 0;
+
+    def wakeupJobs(): Unit = {}
 
     /**
       * Sweep all of the jobs from the queues preceding the given sweepLimit
