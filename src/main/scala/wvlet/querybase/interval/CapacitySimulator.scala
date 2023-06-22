@@ -27,7 +27,8 @@ object CapacitySimulator extends LogSupport:
     *   A list of the simulated jobs
     */
   def simulateJobSchedule[A: IntervalLike](jobs: Seq[A], capacity: ClusterCapacity): CapacitySimulatorReport[A] =
-    debug(s"Simulate job schedule with ${capacity}")
+//    debug(s"Simulate job schedule with ${capacity}")
+
     // A queue of running jobs
     val runningQueue = new mutable.PriorityQueue[A]()(IntervalSweep.intervalSweepOrdering[A])
     // A queue of jobs which cannot be started due to the capacity limit
@@ -45,6 +46,8 @@ object CapacitySimulator extends LogSupport:
       (runningQueue.size + 1 <= capacity.maxConcurrentJobs) &&
         (totalCPUTime + job.cpuTime <= capacity.maxCpuTime) &&
         (totalMemoryTime + job.memoryTime <= capacity.maxMemoryTime)
+
+    var count = 0;
 
     /**
       * Sweep all of the jobs from the queues preceding the given sweepLimit
@@ -72,12 +75,14 @@ object CapacitySimulator extends LogSupport:
           runningQueue += updatedJob
         }
       }
+      // Find jobs in the waiting queue that can be started after the completion of the current job
       // Update the sweep line as we processed all running jobs before the sweepLimit
       sweepLine = sweepLimit
     }
 
     // Sort intervals first in order to sweep the jobs from left to right
     val sortedInputJobs = jobs.sortBy(_.created_time)
+    debug(s"Input list: \t${sortedInputJobs.size}")
     for (j <- sortedInputJobs) {
       sweepUntil(j.start)
       // If the queue has more slots for jobs
@@ -97,6 +102,7 @@ object CapacitySimulator extends LogSupport:
         waitingQueue += j
     }
     sweepUntil(Long.MaxValue)
-
     // Return the simulation result
+    debug(s"Waiting Queue: \t${waitingQueue.size}")
+    debug(s"Schedule list: \t${simulatedJobs.result().size}")
     CapacitySimulatorReport(simulatedJobs.result(), capacity)
