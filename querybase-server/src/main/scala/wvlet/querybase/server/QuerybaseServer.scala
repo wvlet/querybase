@@ -7,12 +7,14 @@ import wvlet.querybase.server.api.JobIntervalApiImpl
 object QuerybaseServer {
 
   def router = RxRouter.of[JobIntervalApiImpl]
-
   def design = Netty.server.withRouter(router).design
 
-  def startServer = {
-    Netty.server.withRouter(router).start { server =>
-      server.awaitTermination()
-    }
+  def startServer(port: Int) = {
+    Netty.server
+      .withPort(port)
+      .withRouter(router)
+      .start { server =>
+        server.awaitTermination()
+      }
   }
 }

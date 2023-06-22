@@ -28,11 +28,10 @@ lazy val querybase =
       name        := "querybase",
       description := "querybase root project",
       libraryDependencies ++= Seq(
-        "org.wvlet.airframe" %% "airframe-launcher" % AIRFRAME_VERSION,
-        "org.duckdb"          % "duckdb_jdbc"       % "0.8.1"
+        "org.wvlet.airframe" %% "airframe-launcher" % AIRFRAME_VERSION
       )
     )
-    .dependsOn(api.jvm)
+    .dependsOn(server)
 
 lazy val api =
   crossProject(JVMPlatform, JSPlatform)
@@ -79,6 +78,7 @@ lazy val server =
       name        := "querybase-server",
       description := "RPC server for querybase",
       libraryDependencies ++= Seq(
-        "org.wvlet.airframe" %% "airframe-http-netty" % AIRFRAME_VERSION
+        "org.wvlet.airframe" %% "airframe-http-netty" % AIRFRAME_VERSION,
+        "org.duckdb"          % "duckdb_jdbc"         % "0.8.1"
       )
     ).dependsOn(api.jvm, client.jvm)

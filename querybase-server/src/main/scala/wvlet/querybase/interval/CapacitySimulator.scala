@@ -4,20 +4,9 @@ import scala.collection.mutable
 import scala.util.chaining.*
 import wvlet.log.LogSupport
 import wvlet.querybase.api.interval.IntervalLike
+import wvlet.querybase.api.interval.*
 
 object CapacitySimulator extends LogSupport:
-
-  case class ClusterCapacity(
-      maxConcurrentJobs: Int,
-      maxCpuTime: Long,
-      maxMemoryTime: Long
-  )
-
-  case class CapacitySimulatorReport[A](
-      simulatedJobs: Seq[A],
-      capacity: ClusterCapacity
-  )
-
   /**
     * Simulate the job schedule with the given capacity
     * @param jobs

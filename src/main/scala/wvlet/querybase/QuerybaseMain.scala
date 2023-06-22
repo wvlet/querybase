@@ -1,7 +1,8 @@
 package wvlet.querybase
 
-import wvlet.airframe.launcher._
+import wvlet.airframe.launcher.*
 import wvlet.log.LogSupport
+import wvlet.querybase.server.QuerybaseServer
 
 object QuerybaseMain {
   def main(args: Array[String]): Unit = {
@@ -29,8 +30,10 @@ class QuerybaseMain(
 
   @command(description = "Run a query simulation")
   def server(
+      @option(prefix = "-p,--port", description = "server port")
       port: Int = 8080
   ): Unit = {
     info(s"Launching a querybase server at port ${port}")
+    QuerybaseServer.startServer(port = port)
   }
 }

@@ -1,8 +1,7 @@
 package wvlet.querybase.interval
 
 import wvlet.airspec.AirSpec
-import wvlet.querybase.api.interval.JobInterval
-import wvlet.querybase.interval.CapacitySimulator
+import wvlet.querybase.api.interval.{CapacitySimulatorReport, ClusterCapacity, JobInterval}
 
 class CapacitySimulatorTest extends AirSpec {
   test("simulateJobSchedule") {
@@ -11,13 +10,13 @@ class CapacitySimulatorTest extends AirSpec {
       JobInterval("job 2", 2, 2, 3, "n/a", 50, 50)
     )
       .sortBy(_.created_time)
-    val capacity = CapacitySimulator.ClusterCapacity(1, 1000000, 1000000)
+    val capacity = ClusterCapacity(1, 1000000, 1000000)
     val result = CapacitySimulator.simulateJobSchedule[JobInterval](
       jobs = sortedIntervals,
       capacity = capacity
     )
     debug(result)
-    result shouldBe CapacitySimulator.CapacitySimulatorReport(
+    result shouldBe CapacitySimulatorReport(
       List(JobInterval("job 1", 1, 1, 8, "n/a", 20, 20), JobInterval("job 2", 2, 8, 9, "n/a", 50, 50)),
       capacity
     )
@@ -26,7 +25,7 @@ class CapacitySimulatorTest extends AirSpec {
   test("simulate 579 jobs") {
     val jobs = JobIntervalUtil.loadFromParquet("data/jobs_579.parquet")
     for (maxConcurrentJobs <- Seq(1, 10, 100); cpu <- Seq(70000, 700000, 7000000); memory <- Seq(2, 4, 8, 16)) {
-      val capacity = CapacitySimulator.ClusterCapacity(maxConcurrentJobs, cpu, memory)
+      val capacity = ClusterCapacity(maxConcurrentJobs, cpu, memory)
       val result = CapacitySimulator.simulateJobSchedule[JobInterval](
         jobs = jobs,
         capacity = capacity
@@ -46,7 +45,7 @@ class CapacitySimulatorTest extends AirSpec {
     val jobs = JobIntervalUtil.loadFromParquet("data/jobs_579.parquet")
     val result = CapacitySimulator.simulateJobSchedule[JobInterval](
       jobs = jobs,
-      capacity = CapacitySimulator.ClusterCapacity(1, 1, 1)
+      capacity = ClusterCapacity(1, 1, 1)
     )
     val num    = result.simulatedJobs.size.asInstanceOf[Double]
     val avgCPU = result.simulatedJobs.map(j => j.cpuTime).sum / num;
