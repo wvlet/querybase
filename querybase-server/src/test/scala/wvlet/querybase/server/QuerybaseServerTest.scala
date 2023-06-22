@@ -4,6 +4,8 @@ import wvlet.airframe.Design
 import wvlet.airframe.http.{Http, HttpStatus}
 import wvlet.airframe.http.netty.NettyServer
 import wvlet.airspec.AirSpec
+import wvlet.querybase.api.v1.JobIntervalApi.GetIntervalRequest
+import wvlet.querybase.api.v1.ServiceRPC
 
 class QuerybaseServerTest extends AirSpec {
 
@@ -40,4 +42,9 @@ class QuerybaseServerTest extends AirSpec {
 
   }
 
+  test("access server with RPC client") { (server: NettyServer) =>
+    val rpcClient = ServiceRPC.newRPCSyncClient(Http.client.newSyncClient(server.localAddress))
+    val response  = rpcClient.JobIntervalApi.getIntervals(GetIntervalRequest(5, 8))
+    info(response)
+  }
 }

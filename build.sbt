@@ -53,6 +53,23 @@ lazy val api =
       )
     )
 
+lazy val client = {
+  crossProject(JVMPlatform, JSPlatform)
+    .crossType(CrossType.Pure)
+    .in(file("querybase-client"))
+    .enablePlugins(AirframeHttpPlugin)
+    .settings(
+      buildSettings,
+      name                := "querybase-client",
+      description         := "querybase RPC client",
+      airframeHttpClients := Seq("wvlet.querybase.api.v1:rpc"),
+      libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %%% "airframe-http" % AIRFRAME_VERSION
+      )
+    )
+    .dependsOn(api)
+}
+
 // TODO add server for RPC service
 lazy val server =
   project
@@ -64,4 +81,4 @@ lazy val server =
       libraryDependencies ++= Seq(
         "org.wvlet.airframe" %% "airframe-http-netty" % AIRFRAME_VERSION
       )
-    ).dependsOn(api.jvm)
+    ).dependsOn(api.jvm, client.jvm)
