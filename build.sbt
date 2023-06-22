@@ -15,7 +15,7 @@ val buildSettings = Seq[Setting[_]](
   Test / logBuffered := false,
   // Use AirSpec for unit testing https://wvlet.org/airframe/docs/airspec
   libraryDependencies ++= Seq(
-    "org.wvlet.airframe" %% "airspec" % AIRSPEC_VERSION % Test
+    "org.wvlet.airframe" %%% "airspec" % AIRSPEC_VERSION % Test
   ),
   testFrameworks += new TestFramework("wvlet.airspec.Framework")
 )
@@ -83,3 +83,40 @@ lazy val server =
         "org.duckdb"          % "duckdb_jdbc"         % "0.8.1"
       )
     ).dependsOn(api.jvm, client.jvm)
+
+val publicDev  = taskKey[String]("output directory for `npm run dev`")
+val publicProd = taskKey[String]("output directory for `npm run build`")
+
+import org.scalajs.linker.interface.{StandardConfig, OutputPatterns}
+import org.scalajs.linker.interface.{ModuleKind, ModuleSplitStyle}
+
+lazy val ui =
+  project
+    .enablePlugins(ScalaJSPlugin)
+    .in(file("querybase-ui"))
+    .settings(
+      buildSettings,
+      name        := "querybase-ui",
+      description := "querybase UI",
+      libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %%% "airframe-http" % AIRFRAME_VERSION,
+        // For rendering DOM
+        "org.wvlet.airframe" %%% "airframe-rx-html" % AIRFRAME_VERSION
+      ),
+      scalaJSUseMainModuleInitializer := true,
+      scalaJSLinkerConfig ~= {
+        linkerConfig(_)
+      },
+      publicDev  := s"target/scala-${scalaVersion.value}/querybase-ui-fastopt",
+      publicProd := s"target/scala-${scalaVersion.value}/querybase-ui-opt"
+    )
+
+def linkerConfig(config: StandardConfig): StandardConfig = {
+  config
+    // Workaround for the error:
+    // Surfaces.scala(235:12:Return): java.io.Serializable expected but java.lang.Class found for tree of type org.scalajs.ir.Trees$Apply
+    .withCheckIR(false)
+    .withSourceMap(true)
+    .withModuleKind(ModuleKind.ESModule)
+    .withModuleSplitStyle(ModuleSplitStyle.SmallModulesFor(List("com.treasuredata.insight.ui")))
+}
