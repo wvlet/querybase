@@ -33,7 +33,7 @@ class QuerybaseUI extends RxElement {
     cls -> "container",
     div(
       cls -> "text-primary",
-      "Hello Querybase!!!",
+      "Hello Querybase!",
       table(
         rpcClient.JobIntervalApi.getIntervals(TargetTimeRange(1, 1000)).map { result =>
           result.intervals.map { x =>

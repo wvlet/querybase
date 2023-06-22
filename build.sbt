@@ -130,5 +130,5 @@ def linkerConfig(config: StandardConfig): StandardConfig = {
     .withCheckIR(false)
     .withSourceMap(true)
     .withModuleKind(ModuleKind.ESModule)
-    .withModuleSplitStyle(ModuleSplitStyle.SmallModulesFor(List("com.treasuredata.insight.ui")))
+    .withModuleSplitStyle(ModuleSplitStyle.SmallModulesFor(List("wvlet.querybase.ui")))
 }
