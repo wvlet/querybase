@@ -16,7 +16,7 @@ class JobIntervalApiImpl extends JobIntervalApi with LogSupport {
           name = "job 1",
           created_time = 1,
           start_time = 10,
-          finished_time = 20,
+          finished_time = 100,
           sig = "n/a",
           cpu = 1000,
           memory = 1.0

@@ -10,3 +10,9 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % SCALAJS_VERSION)
 
 // For building the project for Scala and Scala.js
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.3.1")
+
+// For converting JS modules into Scala.js interface
+addSbtPlugin("org.scalablytyped.converter" % "sbt-converter" % "1.0.0-beta42")
+
+// For reloading server upon code change
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.10.0")
