@@ -83,7 +83,6 @@ object CapacitySimulator extends LogSupport:
 
     // Sort intervals first in order to sweep the jobs from left to right
     val sortedInputJobs = jobs.sortBy(_.created_time)
-    debug(s"Input list: \t${sortedInputJobs.size}")
     for (j <- sortedInputJobs) {
       sweepUntil(j.start)
       // If the queue has more slots for jobs
@@ -104,6 +103,4 @@ object CapacitySimulator extends LogSupport:
     }
     sweepUntil(Long.MaxValue)
     // Return the simulation result
-    debug(s"Waiting Queue: \t${waitingQueue.size}")
-    debug(s"Schedule list: \t${simulatedJobs.result().size}")
     CapacitySimulatorReport(simulatedJobs.result(), capacity)
