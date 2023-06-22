@@ -32,6 +32,7 @@ lazy val querybase =
       )
     )
     .dependsOn(server)
+    .aggregate(api.jvm, api.js, client.jvm, client.js, server)
 
 lazy val api =
   crossProject(JVMPlatform, JSPlatform)
