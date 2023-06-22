@@ -46,6 +46,7 @@ lazy val api =
       buildInfoKeys    := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
       buildInfoPackage := "wvlet.querybase",
       libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %%% "airframe-http"    % AIRFRAME_VERSION,
         "org.wvlet.airframe" %%% "airframe-control" % AIRFRAME_VERSION,
         "org.wvlet.airframe" %%% "airframe-codec"   % AIRFRAME_VERSION,
         "org.wvlet.airframe" %%% "airframe-log"     % AIRFRAME_VERSION
@@ -53,4 +54,14 @@ lazy val api =
     )
 
 // TODO add server for RPC service
-
+lazy val server =
+  project
+    .in(file("querybase-server"))
+    .settings(
+      buildSettings,
+      name        := "querybase-server",
+      description := "RPC server for querybase",
+      libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %% "airframe-http-netty" % AIRFRAME_VERSION
+      )
+    ).dependsOn(api.jvm)
