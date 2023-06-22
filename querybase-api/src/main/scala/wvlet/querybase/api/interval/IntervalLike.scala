@@ -1,4 +1,4 @@
-package wvlet.querybase.interval
+package wvlet.querybase.api.interval
 
 trait IntervalLike[A]:
   extension (a: A)

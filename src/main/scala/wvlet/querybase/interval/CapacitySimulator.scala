@@ -3,6 +3,7 @@ package wvlet.querybase.interval
 import scala.collection.mutable
 import scala.util.chaining.*
 import wvlet.log.LogSupport
+import wvlet.querybase.api.interval.IntervalLike
 
 object CapacitySimulator extends LogSupport:
 

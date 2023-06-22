@@ -23,18 +23,34 @@ val buildSettings = Seq[Setting[_]](
 lazy val querybase =
   project
     .in(file("."))
-    .enablePlugins(BuildInfoPlugin)
     .settings(
       buildSettings,
-      name             := "querybase",
-      description      := "querybase root project",
-      buildInfoKeys    := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-      buildInfoPackage := "wvlet.querybase",
+      name        := "querybase",
+      description := "querybase root project",
       libraryDependencies ++= Seq(
         "org.wvlet.airframe" %% "airframe-launcher" % AIRFRAME_VERSION,
-        "org.wvlet.airframe" %% "airframe-control"  % AIRFRAME_VERSION,
-        "org.wvlet.airframe" %% "airframe-codec"    % AIRFRAME_VERSION,
-        "org.wvlet.airframe" %% "airframe-log"      % AIRFRAME_VERSION,
         "org.duckdb"          % "duckdb_jdbc"       % "0.8.1"
       )
     )
+    .dependsOn(api.jvm)
+
+lazy val api =
+  crossProject(JVMPlatform, JSPlatform)
+    .crossType(CrossType.Pure)
+    .in(file("querybase-api"))
+    .enablePlugins(BuildInfoPlugin)
+    .settings(
+      buildSettings,
+      name             := "querybase-api",
+      description      := "api project shared between server(JVM) and UI (Scala.js)",
+      buildInfoKeys    := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := "wvlet.querybase",
+      libraryDependencies ++= Seq(
+        "org.wvlet.airframe" %%% "airframe-control" % AIRFRAME_VERSION,
+        "org.wvlet.airframe" %%% "airframe-codec"   % AIRFRAME_VERSION,
+        "org.wvlet.airframe" %%% "airframe-log"     % AIRFRAME_VERSION
+      )
+    )
+
+// TODO add server for RPC service
+

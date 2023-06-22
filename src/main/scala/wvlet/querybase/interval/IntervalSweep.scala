@@ -1,6 +1,6 @@
 package wvlet.querybase.interval
 
-import wvlet.querybase.interval.IntervalLike
+import wvlet.querybase.api.interval.IntervalLike
 
 object IntervalSweep:
 
