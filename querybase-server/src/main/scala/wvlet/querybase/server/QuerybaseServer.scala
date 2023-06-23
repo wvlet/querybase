@@ -9,6 +9,16 @@ object QuerybaseServer {
   def router = RxRouter.of[JobIntervalApiImpl]
   def design = Netty.server.withRouter(router).design
 
+  def main(args: Array[String]): Unit = {
+    val port = args match {
+      case Array("--port", port) =>
+        port.toInt
+      case _ =>
+        8080
+    }
+    startServer(port)
+  }
+
   def startServer(port: Int) = {
     Netty.server
       .withPort(port)

@@ -10,7 +10,7 @@ Running a server:
 ```
 $ ./sbt
 # Start a server using port 8080, and restart the server upon the code change
-> ~reStart server 
+> ~server/reStart
 ```
 
 Running a UI development server:
