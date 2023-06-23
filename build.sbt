@@ -70,7 +70,6 @@ lazy val client = {
     .dependsOn(api)
 }
 
-// TODO add server for RPC service
 lazy val server =
   project
     .in(file("querybase-server"))
