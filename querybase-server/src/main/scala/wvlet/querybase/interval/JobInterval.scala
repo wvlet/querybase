@@ -8,10 +8,6 @@ import java.io.File
 import java.sql.DriverManager
 import scala.util.Using
 
-
-
-
-
 object JobIntervalUtil extends LogSupport {
 
   def loadFromJson(jsonFilePath: String): Seq[JobInterval] = {
