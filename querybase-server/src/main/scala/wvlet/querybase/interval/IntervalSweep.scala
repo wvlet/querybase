@@ -18,10 +18,10 @@ object IntervalSweep:
       else 1
 
   /**
-   * An ordering definition to sort intervals with smaller start first
-   * @tparam A
-   * @return
-   */
+    * An ordering definition to sort intervals with smaller start first
+    * @tparam A
+    * @return
+    */
   def intervalStartAscendOrdering[A: IntervalLike]: Ordering[A] = new Ordering[A]:
     override def compare(x: A, y: A): Int = x.start.compareTo(y.start)
 
