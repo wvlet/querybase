@@ -2,7 +2,7 @@ addSbtPlugin("com.eed3si9n"  % "sbt-buildinfo" % "0.11.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt"  % "2.5.0")
 
 // For RPC client
-addSbtPlugin("org.wvlet.airframe" % "sbt-airframe" % "23.7.1")
+addSbtPlugin("org.wvlet.airframe" % "sbt-airframe" % "23.7.2")
 
 // Settings for Scala.js
 val SCALAJS_VERSION = sys.env.getOrElse("SCALAJS_VERSION", "1.13.2")
