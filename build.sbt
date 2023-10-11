@@ -79,7 +79,7 @@ lazy val server =
       description := "RPC server for querybase",
       libraryDependencies ++= Seq(
         "org.wvlet.airframe" %% "airframe-http-netty" % AIRFRAME_VERSION,
-        "org.duckdb"          % "duckdb_jdbc"         % "0.9.0"
+        "org.duckdb"          % "duckdb_jdbc"         % "0.9.1"
       )
     ).dependsOn(api.jvm, client.jvm)
 
