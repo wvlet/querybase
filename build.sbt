@@ -1,7 +1,7 @@
 // It will automatically reload build.sbt changes at sbt console
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val SCALA_3          = "3.3.1"
+val SCALA_3          = "3.3.3"
 val AIRFRAME_VERSION = sys.env.getOrElse("AIRFRAME_VERSION", "23.6.1")
 val AIRSPEC_VERSION  = "23.6.1"
 
