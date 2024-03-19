@@ -5,7 +5,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt"  % "2.5.2")
 addSbtPlugin("org.wvlet.airframe" % "sbt-airframe" % "23.10.0")
 
 // Settings for Scala.js
-val SCALAJS_VERSION = sys.env.getOrElse("SCALAJS_VERSION", "1.14.0")
+val SCALAJS_VERSION = sys.env.getOrElse("SCALAJS_VERSION", "1.16.0")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % SCALAJS_VERSION)
 
 // For building the project for Scala and Scala.js
